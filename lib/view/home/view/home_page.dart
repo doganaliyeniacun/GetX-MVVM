@@ -52,7 +52,7 @@ class MyBody extends StatelessWidget {
           ),
           Expanded(
             flex: 5,
-            child: myListView(),
+            child: Obx(() => myListView()),
           ),
         ],
       ),
