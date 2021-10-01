@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvvm_text/view/home/model/user.dart';
 
+// ignore: constant_identifier_names
 enum UserState { IDLE, BUSY, ERROR }
 
 class UserViewModel {
