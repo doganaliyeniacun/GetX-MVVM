@@ -7,6 +7,7 @@ enum UserState { IDLE, BUSY, ERROR }
 class UserViewModel {
   Rx<UserState> userState = UserState.BUSY.obs;
   RxList<UserModel> userList = <UserModel>[].obs;
+  
 
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
@@ -34,17 +35,26 @@ class UserViewModel {
     }
   }
 
+  bool emptyCheck() =>
+      nameController.text.isNotEmpty &&
+      surnameController.text.isNotEmpty &&
+      ageController.text.isNotEmpty;
+
   void addUser() {
-    userList.add(
-      UserModel(
-        name: nameController.text,
-        surname: surnameController.text,
-        age: ageController.text,
-        dateTime: DateTime.now(),
-      ),
-    );
-    nameController.clear();
-    surnameController.clear();
-    ageController.clear();
+    if (emptyCheck()) {
+      userList.add(
+        UserModel(
+          name: nameController.text,
+          surname: surnameController.text,
+          age: ageController.text,
+          dateTime: DateTime.now(),
+        ),
+      );
+      nameController.clear();
+      surnameController.clear();
+      ageController.clear();
+    } else {
+      Get.snackbar("Uyarı", "Ad,soyad ve yaş alanları boş geçilemez.");
+    }
   }
 }
