@@ -1,13 +1,13 @@
 class UserModel {
   String? name;
   String? surname;
-  int? age;
-  
-  UserModel(
+  String? age;
+  DateTime? dateTime;
+
+  UserModel({
     this.name,
     this.surname,
     this.age,
-  );
-
-  DateTime get registerDateTime => DateTime.now();
+    this.dateTime,
+  });
 }
