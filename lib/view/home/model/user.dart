@@ -1,7 +1,7 @@
 class UserModel {
   String? name;
   String? surname;
-  String? age;
+  int? age;
   DateTime? dateTime;
 
   UserModel({

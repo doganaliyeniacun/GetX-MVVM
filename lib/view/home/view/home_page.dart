@@ -10,9 +10,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String aboutUser =
-        "Adı : ${userViewModel.userList[0].name} Soyadı : ${userViewModel.userList[0].surname} Yaşı : ${userViewModel.userList[0].age}  Kayıt Tarihi : ${userViewModel.userList[0].dateTime}";
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -24,70 +21,7 @@ class HomePage extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : userViewModel.userState == UserState.ERROR
                   ? const Center(child: Text("Error"))
-                  : Container(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                children: [
-                                  TextField(
-                                    controller: userViewModel.nameController,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      label: Text("Name"),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  TextField(
-                                    controller: userViewModel.surnameController,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      label: Text("Surname"),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  TextField(
-                                    controller: userViewModel.ageController,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      label: Text("Age"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 5,
-                            child: ListView.builder(
-                              itemCount: userViewModel.userList.length,
-                              itemBuilder: (context, index) {
-                                List<UserModel> list =
-                                    userViewModel.userList.reversed.toList();
-                                UserModel reversedList = list[index];
-
-                                return Card(
-                                  child: ListTile(
-                                    title:
-                                        Text("${reversedList.name!} ${reversedList.surname!}"),
-                                    subtitle: Text(reversedList.age.toString()),
-                                    leading: const Icon(
-                                      Icons.person,
-                                      size: 50,
-                                    ),
-                                    trailing: Text(reversedList.dateTime.toString()),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  : MyBody(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -97,6 +31,90 @@ class HomePage extends StatelessWidget {
           size: 40,
         ),
       ),
+    );
+  }
+}
+
+class MyBody extends StatelessWidget {
+  UserViewModel userViewModel = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: myTextFields(),
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: myListView(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ListView myListView() {
+    return ListView.builder(
+      itemCount: userViewModel.userList.length,
+      itemBuilder: (context, index) {
+        List<UserModel> list = userViewModel.userList.reversed.toList();
+        UserModel reversedList = list[index];
+
+        return Card(
+          color: reversedList.age! <= 20
+              ? Colors.green
+              : reversedList.age! >= 50
+                  ? Colors.red
+                  : Colors.blue,
+          child: ListTile(
+            title: Text("${reversedList.name!} ${reversedList.surname!}"),
+            subtitle: Text(reversedList.age.toString()),
+            leading: const Icon(
+              Icons.person,
+              size: 50,
+            ),
+            trailing: Text(reversedList.dateTime.toString()),
+          ),
+        );
+      },
+    );
+  }
+
+  Column myTextFields() {
+    return Column(
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        TextField(
+          controller: userViewModel.nameController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            label: Text("Name"),
+          ),
+          keyboardType: TextInputType.number,
+        ),
+        const SizedBox(height: 5),
+        TextField(
+          controller: userViewModel.surnameController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            label: Text("Surname"),
+          ),
+        ),
+        const SizedBox(height: 5),
+        TextField(
+          controller: userViewModel.ageController,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            label: Text("Age"),
+          ),
+        ),
+      ],
     );
   }
 }

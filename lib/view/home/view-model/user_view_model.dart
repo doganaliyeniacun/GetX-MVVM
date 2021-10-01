@@ -25,7 +25,7 @@ class UserViewModel {
         UserModel(
           name: "Doğan Ali",
           surname: "Yeniacun",
-          age: "24",
+          age: 24,
           dateTime: DateTime.now(),
         ),
       );
@@ -47,7 +47,7 @@ class UserViewModel {
         UserModel(
           name: nameController.text,
           surname: surnameController.text,
-          age: ageController.text,
+          age: int.parse(ageController.text),
           dateTime: DateTime.now(),
         ),
       );
